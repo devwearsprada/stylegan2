@@ -163,7 +163,7 @@ def training_loop(
     # Dataset
     print('-----------------------')
     name = dataset_args.tfrecord_dir
-    result_path = '../../assets/results/stylegan2/' + name + '/'
+    result_path = './assets/results/stylegan2/' + name + '/'
     print(name)
     print('-----------------------')
 
