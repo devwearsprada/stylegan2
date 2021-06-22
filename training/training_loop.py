@@ -414,11 +414,11 @@ def training_loop(
                 pkl = result_path + \
                     'network-snapshot-%06d.pkl' % (cur_nimg // 1000)
                 misc.save_pkl((G, D, Gs), pkl)
-                metrics.run(pkl, run_dir=result_path, data_dir=dnnlib.convert_path(
-                    data_dir), num_gpus=num_gpus, tf_config=tf_config)
+                # metrics.run(pkl, run_dir=result_path, data_dir=dnnlib.convert_path(
+                # data_dir), num_gpus=num_gpus, tf_config=tf_config)
 
             # Update summaries and RunContext.
-            metrics.update_autosummaries()
+            # metrics.update_autosummaries()
             tflib.autosummary.save_summaries(summary_log, cur_nimg)
             dnnlib.RunContext.get().update('%.2f' % sched.lod,
                                            cur_epoch=cur_nimg // 1000, max_epoch=total_kimg)
