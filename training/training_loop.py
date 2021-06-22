@@ -162,7 +162,9 @@ def training_loop(
 
     # Dataset
     print('-----------------------')
-    print(dataset_args)
+    name = dataset_args.tfrecord_dir
+    result_path = '../../assets/results/stylegan2/' + name + '/'
+    print(name)
     print('-----------------------')
 
     # Load training set.
@@ -170,8 +172,10 @@ def training_loop(
         data_dir=dnnlib.convert_path(data_dir), verbose=True, **dataset_args)
     grid_size, grid_reals, grid_labels = misc.setup_snapshot_image_grid(
         training_set, **grid_args)
-    misc.save_image_grid(grid_reals, dnnlib.make_run_dir_path(
-        'reals.png'), drange=training_set.dynamic_range, grid_size=grid_size)
+    # misc.save_image_grid(grid_reals, dnnlib.make_run_dir_path(
+    #     'reals.png'), drange=training_set.dynamic_range, grid_size=grid_size)
+    misc.save_image_grid(grid_reals, result_path + 'reals.png',
+                         drange=training_set.dynamic_range, grid_size=grid_size)
 
     # Construct or load networks.
     with tf.device('/gpu:0'):
