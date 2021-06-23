@@ -7,6 +7,8 @@
 """Network architectures used in the StyleGAN2 paper."""
 
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 import dnnlib
 import dnnlib.tflib as tflib

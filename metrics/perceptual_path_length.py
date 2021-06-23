@@ -7,6 +7,8 @@
 """Perceptual Path Length (PPL)."""
 
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 import dnnlib.tflib as tflib
 

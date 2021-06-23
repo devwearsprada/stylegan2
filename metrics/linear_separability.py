@@ -9,6 +9,8 @@
 from collections import defaultdict
 import numpy as np
 import sklearn.svm
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 import dnnlib.tflib as tflib
 

@@ -8,6 +8,8 @@
 
 import os
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 from .. import custom_ops
 from ...util import EasyDict

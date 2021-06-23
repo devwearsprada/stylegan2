@@ -8,6 +8,8 @@
 
 import platform
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 
 from collections import OrderedDict

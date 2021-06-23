@@ -7,11 +7,12 @@
 """Main training script."""
 
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 import dnnlib
 import dnnlib.tflib as tflib
 from dnnlib.tflib.autosummary import autosummary
-
 from training import dataset
 from training import misc
 from metrics import metric_base

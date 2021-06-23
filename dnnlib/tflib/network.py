@@ -12,6 +12,8 @@ import re
 import uuid
 import sys
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 
 from collections import OrderedDict

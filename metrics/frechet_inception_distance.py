@@ -9,6 +9,8 @@
 import os
 import numpy as np
 import scipy
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 import dnnlib.tflib as tflib
 

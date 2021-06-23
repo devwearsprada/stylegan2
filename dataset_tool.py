@@ -15,6 +15,8 @@ import threading
 import six.moves.queue as Queue # pylint: disable=import-error
 import traceback
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 import PIL.Image
 import dnnlib.tflib as tflib

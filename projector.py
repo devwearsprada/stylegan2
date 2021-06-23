@@ -5,6 +5,8 @@
 # https://nvlabs.github.io/stylegan2/license.html
 
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 import dnnlib
 import dnnlib.tflib as tflib

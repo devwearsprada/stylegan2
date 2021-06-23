@@ -10,6 +10,8 @@ import os
 import time
 import hashlib
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore', category=FutureWarning)
 import tensorflow as tf
 import dnnlib
 import dnnlib.tflib as tflib
