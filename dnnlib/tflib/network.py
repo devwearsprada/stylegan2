@@ -6,6 +6,8 @@
 
 """Helper for managing networks."""
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import types
 import inspect
 import re

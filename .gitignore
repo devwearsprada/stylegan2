@@ -1,5 +1,4 @@
 /.stylegan2-cache/
 __pycache__/
 _cudacache/
-
 dnnlib/tflib/_cudacache/

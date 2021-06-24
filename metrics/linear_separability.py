@@ -6,6 +6,8 @@
 
 """Linear Separability (LS)."""
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from collections import defaultdict
 import numpy as np
 import sklearn.svm

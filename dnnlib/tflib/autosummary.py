@@ -21,6 +21,8 @@ Notes:
   is added to the average immediately.
 """
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from collections import OrderedDict
 import numpy as np
 import warnings

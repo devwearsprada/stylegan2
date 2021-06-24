@@ -6,6 +6,8 @@
 
 """Helper wrapper for a Tensorflow optimizer."""
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import platform
 import numpy as np
 import warnings

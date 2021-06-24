@@ -7,6 +7,7 @@
 """Common definitions for GAN metrics."""
 
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import time
 import hashlib
 import numpy as np

@@ -8,6 +8,7 @@
 
 # pylint: disable=too-many-lines
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import sys
 import glob
 import argparse
