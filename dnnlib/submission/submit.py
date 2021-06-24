@@ -7,6 +7,7 @@
 """Submit a function to be run either locally or in a computing cluster."""
 
 import copy
+import re
 import inspect
 import os
 import pprint
@@ -200,7 +201,14 @@ def _create_run_dir_local(submit_config: SubmitConfig) -> str:
     submit_config.run_id = _get_next_run_id_local(run_dir_root)
     submit_config.run_name = "{0:05d}-{1}".format(submit_config.run_id, submit_config.run_desc)
     
-    folder_name = submit_config.run_func_kwargs['dataset_args']['tfrecord_dir']
+    if submit_config.run_desc == 'generate-images':
+        s = submit_config.run_func_kwargs['network_pkl']
+        match = re.search('stylegan2-(.*)-1gpu', s)
+        folder_name = match.group(1)
+    else:
+        folder_name = submit_config.run_func_kwargs['dataset_args']['tfrecord_dir']
+
+    # folder_name = submit_config.run_func_kwargs['dataset_args']['tfrecord_dir']
     run_dir = os.path.join(run_dir_root, folder_name)
 
     if os.path.exists(run_dir):
