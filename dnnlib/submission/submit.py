@@ -9,6 +9,7 @@
 import copy
 import inspect
 import os
+import pprint
 import pathlib
 import pickle
 import platform
@@ -198,10 +199,12 @@ def _create_run_dir_local(submit_config: SubmitConfig) -> str:
 
     submit_config.run_id = _get_next_run_id_local(run_dir_root)
     submit_config.run_name = "{0:05d}-{1}".format(submit_config.run_id, submit_config.run_desc)
-    run_dir = os.path.join(run_dir_root, submit_config.run_name)
+    
+    folder_name = submit_config.run_func_kwargs['dataset_args']['tfrecord_dir']
+    run_dir = os.path.join(run_dir_root, folder_name)
 
     if os.path.exists(run_dir):
-        raise RuntimeError("The run dir already exists! ({0})".format(run_dir))
+        return run_dir
 
     os.makedirs(run_dir)
 

@@ -170,7 +170,7 @@ def training_loop(
         data_dir=dnnlib.convert_path(data_dir), verbose=True, **dataset_args)
     grid_size, grid_reals, grid_labels = misc.setup_snapshot_image_grid(
         training_set, **grid_args)
-    misc.save_image_grid(grid_reals, result_path + 'reals.png',
+    misc.save_image_grid(grid_reals, dnnlib.make_run_dir_path('reals.png'),
                          drange=training_set.dynamic_range, grid_size=grid_size)
 
     # Construct or load networks.
@@ -202,8 +202,7 @@ def training_loop(
     grid_latents = np.random.randn(np.prod(grid_size), *G.input_shape[1:])
     grid_fakes = Gs.run(grid_latents, grid_labels,
                         is_validation=True, minibatch_size=sched.minibatch_gpu)
-    misc.save_image_grid(grid_fakes, result_path +
-                         'fakes_init.png', drange=drange_net, grid_size=grid_size)
+    misc.save_image_grid(grid_fakes, dnnlib.make_run_dir_path('fakes_init.png'), drange=drange_net, grid_size=grid_size)
 
     # Setup training inputs.
     print('Building TensorFlow graph...')
@@ -313,7 +312,7 @@ def training_loop(
     tflib.init_uninitialized_vars()
 
     print('Initializing logs...')
-    summary_log = tf.summary.FileWriter(result_path)
+    summary_log = tf.summary.FileWriter(dnnlib.make_run_dir_path())
     if save_tf_graph:
         summary_log.add_graph(tf.get_default_graph())
     if save_weight_histograms:
@@ -409,14 +408,12 @@ def training_loop(
             if image_snapshot_ticks is not None and (cur_tick % image_snapshot_ticks == 0 or done):
                 grid_fakes = Gs.run(
                     grid_latents, grid_labels, is_validation=True, minibatch_size=sched.minibatch_gpu)
-                misc.save_image_grid(grid_fakes, result_path +
-                                     'fakes%06d.png' % (cur_nimg // 1000), drange=drange_net, grid_size=grid_size)
+                misc.save_image_grid(grid_fakes, dnnlib.make_run_dir_path('fakes%06d.png') % (cur_nimg // 1000), drange=drange_net, grid_size=grid_size)
             if network_snapshot_ticks is not None and (cur_tick % network_snapshot_ticks == 0 or done):
-                pkl = result_path + \
-                    'network-snapshot-%06d.pkl' % (cur_nimg // 1000)
+                pkl = dnnlib.make_run_dir_path('network-snapshot-%06d.pkl') % (cur_nimg // 1000)
                 misc.save_pkl((G, D, Gs), pkl)
-                # metrics.run(pkl, run_dir=result_path, data_dir=dnnlib.convert_path(
-                # data_dir), num_gpus=num_gpus, tf_config=tf_config)
+                metrics.run(pkl, run_dir=dnnlib.make_run_dir_path(), data_dir=dnnlib.convert_path(
+                data_dir), num_gpus=num_gpus, tf_config=tf_config)
 
             # Update summaries and RunContext.
             # metrics.update_autosummaries()
@@ -426,7 +423,7 @@ def training_loop(
             maintenance_time = dnnlib.RunContext.get().get_last_update_interval() - tick_time
 
     # Save final snapshot.
-    misc.save_pkl((G, D, Gs), result_path + 'network-final.pkl')
+    misc.save_pkl((G, D, Gs), dnnlib.make_run_dir_path('network-final.pkl'))
 
     # All done.
     summary_log.close()
