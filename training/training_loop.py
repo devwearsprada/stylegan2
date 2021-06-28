@@ -6,18 +6,18 @@
 
 """Main training script."""
 
+from metrics import metric_base
+from training import misc
+from training import dataset
+from dnnlib.tflib.autosummary import autosummary
+import dnnlib.tflib as tflib
+import dnnlib
+import tensorflow as tf
+import warnings
+import numpy as np
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-import numpy as np
-import warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
-import tensorflow as tf
-import dnnlib
-import dnnlib.tflib as tflib
-from dnnlib.tflib.autosummary import autosummary
-from training import dataset
-from training import misc
-from metrics import metric_base
 
 # ----------------------------------------------------------------------------
 # Just-in-time processing of training images before feeding them to the networks.
@@ -167,6 +167,9 @@ def training_loop(
     name = dataset_args.tfrecord_dir
     result_path = './assets/results/stylegan2/' + name + '/'
 
+    # Continue
+    # resume_pkl = result_path + 'networks-final.pkl'
+
     # Load training set.
     training_set = dataset.load_dataset(
         data_dir=dnnlib.convert_path(data_dir), verbose=True, **dataset_args)
@@ -204,7 +207,8 @@ def training_loop(
     grid_latents = np.random.randn(np.prod(grid_size), *G.input_shape[1:])
     grid_fakes = Gs.run(grid_latents, grid_labels,
                         is_validation=True, minibatch_size=sched.minibatch_gpu)
-    misc.save_image_grid(grid_fakes, dnnlib.make_run_dir_path('fakes_init.png'), drange=drange_net, grid_size=grid_size)
+    misc.save_image_grid(grid_fakes, dnnlib.make_run_dir_path(
+        'fakes_init.png'), drange=drange_net, grid_size=grid_size)
 
     # Setup training inputs.
     print('Building TensorFlow graph...')
@@ -410,12 +414,14 @@ def training_loop(
             if image_snapshot_ticks is not None and (cur_tick % image_snapshot_ticks == 0 or done):
                 grid_fakes = Gs.run(
                     grid_latents, grid_labels, is_validation=True, minibatch_size=sched.minibatch_gpu)
-                misc.save_image_grid(grid_fakes, dnnlib.make_run_dir_path('fakes%06d.png') % (cur_nimg // 1000), drange=drange_net, grid_size=grid_size)
+                misc.save_image_grid(grid_fakes, dnnlib.make_run_dir_path('fakes%06d.png') % (
+                    cur_nimg // 1000), drange=drange_net, grid_size=grid_size)
             if network_snapshot_ticks is not None and (cur_tick % network_snapshot_ticks == 0 or done):
-                pkl = dnnlib.make_run_dir_path('network-snapshot-%06d.pkl') % (cur_nimg // 1000)
+                pkl = dnnlib.make_run_dir_path(
+                    'network-snapshot-%06d.pkl') % (cur_nimg // 1000)
                 misc.save_pkl((G, D, Gs), pkl)
                 metrics.run(pkl, run_dir=dnnlib.make_run_dir_path(), data_dir=dnnlib.convert_path(
-                data_dir), num_gpus=num_gpus, tf_config=tf_config)
+                    data_dir), num_gpus=num_gpus, tf_config=tf_config)
 
             # Update summaries and RunContext.
             # metrics.update_autosummaries()
