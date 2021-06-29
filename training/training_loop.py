@@ -167,8 +167,8 @@ def training_loop(
     name = dataset_args.tfrecord_dir
     result_path = './assets/results/stylegan2/' + name + '/'
 
-    # Continue
-    # resume_pkl = result_path + 'networks-final.pkl'
+    # uncomment to continue training
+    # resume_pkl = result_path + 'network-final.pkl'
 
     # Load training set.
     training_set = dataset.load_dataset(
